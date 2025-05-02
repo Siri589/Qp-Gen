@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/routing/PrivateRoute';
+import Layout from './components/layout/Layout';
 
 // Pages
 import Register from './pages/Register';
@@ -33,42 +34,43 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            } />
-            <Route path="/materials" element={
-              <PrivateRoute>
-                <Materials />
-              </PrivateRoute>
-            } />
-            <Route path="/upload-material" element={
-              <PrivateRoute>
-                <UploadMaterial />
-              </PrivateRoute>
-            } />
-            <Route path="/outcomes" element={
-              <PrivateRoute>
-                <OutcomesPage />
-              </PrivateRoute>
-            } />
-            <Route path="/generate-questions" element={
-              <PrivateRoute>
-                <QuestionGenerator />
-              </PrivateRoute>
-            } />
-            <Route path="/question-bank" element={
-              <PrivateRoute>
-                <QuestionBank />
-              </PrivateRoute>
-            } />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Layout>
+            <Routes>
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              } />
+              <Route path="/materials" element={
+                <PrivateRoute>
+                  <Materials />
+                </PrivateRoute>
+              } />
+              <Route path="/upload-material" element={
+                <PrivateRoute>
+                  <UploadMaterial />
+                </PrivateRoute>
+              } />
+              <Route path="/outcomes" element={
+                <PrivateRoute>
+                  <OutcomesPage />
+                </PrivateRoute>
+              } />
+              <Route path="/generate-questions" element={
+                <PrivateRoute>
+                  <QuestionGenerator />
+                </PrivateRoute>
+              } />
+              <Route path="/question-bank" element={
+                <PrivateRoute>
+                  <QuestionBank />
+                </PrivateRoute>
+              } />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Layout>
         </Router>
       </ThemeProvider>
     </AuthProvider>

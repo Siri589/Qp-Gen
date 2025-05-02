@@ -37,17 +37,6 @@ const Navbar = () => {
     navigate('/login');
   };
 
-  const guestLinks = (
-    <>
-      <Button color="inherit" component={RouterLink} to="/login">
-        Login
-      </Button>
-      <Button color="inherit" component={RouterLink} to="/register">
-        Register
-      </Button>
-    </>
-  );
-
   const mobileMenu = (
     <Menu
       id="menu-appbar-mobile"
@@ -86,64 +75,6 @@ const Navbar = () => {
     </Menu>
   );
 
-  const authLinks = (
-    <>
-      <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-        <Button color="inherit" component={RouterLink} to="/">
-          Dashboard
-        </Button>
-        <Button color="inherit" component={RouterLink} to="/materials">
-          Materials
-        </Button>
-        <Button color="inherit" component={RouterLink} to="/upload-material">
-          Upload Material
-        </Button>
-        <Button color="inherit" component={RouterLink} to="/outcomes">
-          Course Outcomes
-        </Button>
-        <Button color="inherit" component={RouterLink} to="/generate-questions">
-          Generate Questions
-        </Button>
-        <Button color="inherit" component={RouterLink} to="/question-bank">
-          Question Bank
-        </Button>
-      </Box>
-      <Box sx={{ flexGrow: 1 }} />
-      <Box>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={handleMenu}
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem disabled>
-            {user?.name} ({user?.department})
-          </MenuItem>
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        </Menu>
-      </Box>
-    </>
-  );
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -160,10 +91,73 @@ const Navbar = () => {
               <MenuIcon />
             </IconButton>
           )}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div">
             Question Paper Generator
           </Typography>
-          {isAuthenticated ? authLinks : guestLinks}
+          <Box sx={{ flexGrow: 1 }} />
+          {isAuthenticated ? (
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Button color="inherit" component={RouterLink} to="/">
+                Dashboard
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/materials">
+                Materials
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/upload-material">
+                Upload Material
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/outcomes">
+                Course Outcomes
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/generate-questions">
+                Generate Questions
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/question-bank">
+                Question Bank
+              </Button>
+              <Box>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem disabled>
+                    {user?.name} ({user?.department})
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </Box>
+            </Box>
+          ) : (
+            <Box>
+              <Button color="inherit" component={RouterLink} to="/login">
+                Login
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/register">
+                Register
+              </Button>
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
       {mobileMenu}

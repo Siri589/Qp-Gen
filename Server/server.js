@@ -13,7 +13,7 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: 'http://localhost:3005', // Changed back to 3005 as it was working before
+  origin: ['http://localhost:3000', 'http://localhost:3005'],
   credentials: true
 }));
 
@@ -35,10 +35,7 @@ if (!fs.existsSync(materialUploadsDir)) {
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Connect to MongoDB with updated options
-mongoose.connect('mongodb://localhost:27017/question-paper-generator', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect('mongodb://localhost:27017/question-paper-generator')
 .then(() => {
   console.log('MongoDB Connected Successfully');
 })
