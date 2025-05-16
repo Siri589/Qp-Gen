@@ -48,12 +48,14 @@ const authRoutes = require('./routes/auth');
 const materialRoutes = require('./routes/materials');
 const outcomeRoutes = require('./routes/outcomes');
 const questionRoutes = require('./routes/questions');
+const courseRoutes = require('./routes/courseRoutes'); // Import course routes
 
 // Use Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/outcomes', outcomeRoutes);
 app.use('/api/questions', questionRoutes);
+app.use('/api/courses', courseRoutes); // Use course routes
 
 // Error handling middleware
 app.use((err, req, res, next) => {

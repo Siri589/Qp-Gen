@@ -61,17 +61,47 @@ const QuestionGenerator = () => {
     { id: 3, code: 'PSO3', description: '' }
   ]);
   const [mapping, setMapping] = useState({});
+  const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedPdfs, setSelectedPdfs] = useState([]);
 
   useEffect(() => {
-    const fetchPdfs = async () => {
-      try {
-        const response = await axios.get('/api/materials');
-        setPdfs(response.data);
-      } catch (error) {
-        console.error('Error fetching PDFs:', error);
+    // Mock data for demonstration; replace with API call if available
+    const mockCourses = [
+      {
+        _id: 'course1',
+        name: 'DBMS',
+        materials: [
+          { _id: 'pdf1', title: 'DBMS mod 1' },
+          { _id: 'pdf2', title: 'DBMS mod 2' }
+        ]
+      },
+      {
+        _id: 'course2',
+        name: 'EVS',
+        materials: [
+          { _id: 'pdf3', title: 'evs - sh125' }
+        ]
+      },
+      {
+        _id: 'course3',
+        name: 'AWS',
+        materials: [
+          { _id: 'pdf4', title: 'aws - sh01' }
+        ]
       }
-    };
-    fetchPdfs();
+    ];
+    setCourses(mockCourses);
+    // Uncomment below and adjust endpoint if API is available
+    // const fetchCourses = async () => {
+    //   try {
+    //     const response = await axios.get('/api/courses');
+    //     setCourses(response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching courses:', error);
+    //   }
+    // };
+    // fetchCourses();
   }, []);
 
   // Add PSO handler
@@ -100,28 +130,55 @@ const QuestionGenerator = () => {
       </Typography>
 
       <Grid container spacing={3}>
-        {/* PDF Selection */}
+        {/* Course Selection */}
         <Grid item xs={12} md={3}>
           <Typography variant="h6" gutterBottom>
-            Select PDF Material
+            Select Course
           </Typography>
           <FormControl fullWidth>
             <Select
-              value={selectedPdf}
-              onChange={(e) => setSelectedPdf(e.target.value)}
+              value={selectedCourse}
+              onChange={(e) => {
+                setSelectedCourse(e.target.value);
+                setSelectedPdfs([]); // Reset PDFs when course changes
+              }}
               displayEmpty
               sx={{ backgroundColor: 'white' }}
             >
               <MenuItem value="" disabled>
-                PDF Material
+                Select Course
               </MenuItem>
-              {pdfs.map((pdf) => (
-                <MenuItem key={pdf._id} value={pdf._id}>
-                  {pdf.title}
-                </MenuItem>
+              {courses.map(course => (
+                <MenuItem key={course._id} value={course._id}>{course.name}</MenuItem>
               ))}
             </Select>
           </FormControl>
+          {/* PDF Multi-Select for selected course */}
+          {selectedCourse && (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="subtitle1">Select Study Materials</Typography>
+              <FormGroup>
+                {courses.find(c => c._id === selectedCourse)?.materials.map(pdf => (
+                  <FormControlLabel
+                    key={pdf._id}
+                    control={
+                      <Checkbox
+                        checked={selectedPdfs.includes(pdf._id)}
+                        onChange={() => {
+                          setSelectedPdfs(prev =>
+                            prev.includes(pdf._id)
+                              ? prev.filter(id => id !== pdf._id)
+                              : [...prev, pdf._id]
+                          );
+                        }}
+                      />
+                    }
+                    label={pdf.title}
+                  />
+                ))}
+              </FormGroup>
+            </Box>
+          )}
         </Grid>
 
         {/* Course Outcomes */}
@@ -357,9 +414,9 @@ const QuestionGenerator = () => {
           variant="contained"
             onClick={() => {
               // Handle generation logic
-              console.log('Generating questions...');
+              console.log('Generating questions for course:', selectedCourse, 'with PDFs:', selectedPdfs);
             }}
-            disabled={!selectedPdf}
+            disabled={!selectedCourse || selectedPdfs.length === 0}
             sx={{ 
               mt: 2,
               backgroundColor: '#e0e0e0',

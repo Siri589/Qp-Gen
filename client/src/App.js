@@ -5,8 +5,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/routing/PrivateRoute';
 import Layout from './components/layout/Layout';
+import DefineCourse from './pages/DefineCourse'; // Keep only one import for DefineCourse
 
-// Pages
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -63,6 +63,7 @@ function App() {
                   <QuestionGenerator />
                 </PrivateRoute>
               } />
+              <Route path="/define-course" element={<DefineCourse />} />
               <Route path="/question-bank" element={
                 <PrivateRoute>
                   <QuestionBank />
